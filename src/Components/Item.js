@@ -73,7 +73,7 @@ function handleDelete(idToRemove) {
       </CardContent>
 
       <CardActions>
-        {console.log(props.taskDescription)}
+       
       <TaskViewModal id={props.id} taskType={props.taskType} taskName={props.taskName} taskDescription={props.taskDescription}/>
       <TaskEditModal id={props.id} taskType={props.taskType} taskName={props.taskName} taskDescription={props.taskDescription}/>
       

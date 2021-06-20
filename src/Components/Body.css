@@ -1,0 +1,22 @@
+.body__wrapper {
+    display: flex;
+    flex-direction: row;
+    
+   
+    justify-content: center;
+    
+  }
+  .list__title__wrapper {
+    display:flex;
+    padding:15px;
+    flex-direction:row;
+    justify-content: center;
+    margin-bottom: 1px;
+    background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+  }
+  .list__wrapper{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 8px;
+
+  }

@@ -7,8 +7,10 @@ import { ApolloProvider } from '@apollo/react-hooks';
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
-      
+      <div className="app"> 
       <Body />
+      </div>
+ 
      
     </ApolloProvider>
   );

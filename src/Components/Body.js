@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useQuery,useSubscription } from "@apollo/client";
+import { useQuery} from "@apollo/client";
 import { GET_TASKS } from "../Graphql/Queries";
 import {TASK_TYPE1,TASK_TYPE2,TASK_TYPE3,TASK_TYPE1_TEXT,TASK_TYPE2_TEXT,TASK_TYPE3_TEXT} from "../config"
 import TaskAddModal from "./TaskAddModal";
@@ -21,15 +21,11 @@ const Body = () => {
   useEffect(() => {
     if (data) {
       setTasks(data.TASKS);
-     
-    }
+     }
     
   }, [data, tasks]);
 
-  let todoTasks=[];
-  let inprogressTasks=[];
-  let completedTasks=[];
-
+  let todoTasks=[],inprogressTasks=[],completedTasks=[];
   for(let i=0;i<tasks.length;i++)
   {
     if(tasks[i]['tasktype']===TASK_TYPE1)
@@ -41,15 +37,12 @@ const Body = () => {
 
   }
   const [updateTaskType ,{err}]=useMutation(UPDATE_TASK_TYPE);
-  let onDragEnd=result=>{
-    console.log(todoTasks);
-    console.log(completedTasks);
-    const {destination ,source,droppableId}=result;
+  let onDragEnd=(result)=>{
+     const {destination ,source,droppableId}=result;
     if(!destination){
       return;
     }
-    if(destination.droppableId===source.droppableId
-      ){
+    if(destination.droppableId===source.droppableId){
          return;
        }
        let idToUpdate="";
@@ -57,39 +50,31 @@ const Body = () => {
        if(source.droppableId===TASK_TYPE1)
        {  currenttaskdata=todoTasks[source.index];
           idToUpdate=todoTasks[source.index]['id'];
+          todoTasks[source.index]['tasktype']=destination.droppableId;
           todoTasks.splice(source.index);
         }
        if(source.droppableId===TASK_TYPE2)
        {  
         currenttaskdata=inprogressTasks[source.index];
         idToUpdate=inprogressTasks[source.index]['id'];
+        inprogressTasks[source.index]['tasktype']=destination.droppableId;
         inprogressTasks.splice(source.index);
        }
        if(source.droppableId===TASK_TYPE3)
        {
         currenttaskdata=completedTasks[source.index]['id'];
         idToUpdate=completedTasks[source.index]['id'];
+        completedTasks[source.index]['tasktype']=destination.droppableId;
         completedTasks.splice(source.index);
        }
 
-       if(destination.droppableId===TASK_TYPE1)
-       {
-          todoTasks.push(currenttaskdata);
-        }
-       if(destination.droppableId===TASK_TYPE2)
-       {
-         inprogressTasks.push(currenttaskdata);
-       
-       }
-       if(destination.droppableId===TASK_TYPE3)
-       {
-         completedTasks.push(currenttaskdata);
-       }
-       console.log(todoTasks);
-      console.log(completedTasks);
+      
+       todoTasks.push(...completedTasks);
+       todoTasks.push(...inprogressTasks);
+       setTasks(todoTasks);
        let newtaskType=destination.droppableId;
 
-       //runmutation;
+       //runmutation (here I used refetch queries instead of just updating the apollo cache)
        updateTaskType({
         variables:{
           id:idToUpdate,

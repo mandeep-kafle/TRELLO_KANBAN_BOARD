@@ -3,8 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import IconButton from "@material-ui/core/IconButton";
+//-----------------------------------------------------------------
 import InputForm from "./InputForm";
 import {TASK_TYPE1,TASK_TYPE2,TASK_TYPE3} from "../config";
+
+// jsx styled componenet from material ui
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }

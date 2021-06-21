@@ -3,8 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import {TASK_TYPE1,TASK_TYPE2,TASK_TYPE3} from "../config";
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+//----------------------------------------------------------------------------
+import {TASK_TYPE1,TASK_TYPE2,TASK_TYPE3} from "../config";
+
+// jsx styled material ui modal
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }

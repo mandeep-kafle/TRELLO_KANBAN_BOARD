@@ -1,0 +1,38 @@
+.list__title__wrapper {
+    display: flex;
+    color: white;
+    overflow-x: scroll;
+  
+
+  }
+  
+  .list__title__wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .list__title__wrapper {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .list__title__wrapper > h2 {
+    cursor: pointer;
+    margin-left: 25px;
+    margin-right: 25px;
+    font-weight: 400;
+    font-size: 19px;
+    opacity: 0.7;
+    transition: transform 50ms ease-out;
+  }
+  .list__title__wrapper > h2:hover {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  
+  .list__wrapper{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 8px;
+
+  }

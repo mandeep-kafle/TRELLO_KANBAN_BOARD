@@ -1,5 +1,5 @@
 import React from "react";
-import Item from './Item';
+import TaskCard from './TaskCard';
 import {Droppable} from 'react-beautiful-dnd';
 function List(props) {
     let tasks=props.tasks;
@@ -9,7 +9,7 @@ function List(props) {
         return tasks.map((e) => {
           index=index+1;
           return (
-            <Item
+            <TaskCard
               index={index}
               id={e.id}
               taskName={e.taskname}

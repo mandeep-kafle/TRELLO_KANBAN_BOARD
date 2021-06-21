@@ -17,7 +17,7 @@ import {TOTAL_COLUMNS} from "../config";
 
 import {Draggable} from "react-beautiful-dnd";
 
-export default function Item(props) {
+export default function TaskCard(props) {
 
  
   const classes = useStyles();

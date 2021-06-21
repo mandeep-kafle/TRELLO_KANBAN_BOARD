@@ -90,7 +90,7 @@ function handleDelete(idToRemove) {
                   handleDelete(props.id);
                 }}
               >
-                <DeleteForeverRoundedIcon />
+                <DeleteForeverRoundedIcon color="secondary"/>
               </IconButton>
       
              

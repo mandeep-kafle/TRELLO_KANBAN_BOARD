@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     <div>
       <IconButton aria-label="view" onClick={handleOpen}>
   
-        <EditIcon/>
+        <EditIcon />
         </IconButton>
       <Modal open={open} onClose={handleClose}>
         {body}

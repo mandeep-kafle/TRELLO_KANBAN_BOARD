@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   return (
     <div>
       <IconButton aria-label="view" onClick={handleOpen}>
-        <AddBoxIcon style={{ fontSize: 40 }}  />
+        <AddBoxIcon color="primary" style={{ fontSize: 40 }}  />
       </IconButton>
       <Modal open={open} onClose={handleClose}>
         {body}

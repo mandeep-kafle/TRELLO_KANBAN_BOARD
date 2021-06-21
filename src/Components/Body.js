@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useQuery,useSubscription } from "@apollo/client";
 import { GET_TASKS } from "../Graphql/Queries";
-import {TASK_TYPE1,TASK_TYPE2,TASK_TYPE3} from "../config"
+import {TASK_TYPE1,TASK_TYPE2,TASK_TYPE3,TASK_TYPE1_TEXT,TASK_TYPE2_TEXT,TASK_TYPE3_TEXT} from "../config"
 import TaskAddModal from "./TaskAddModal";
 import List from "./List";
-import "./Body.css"
+import "../Styles/Body.css";
 import Todo_PNG from "../assets/Todo.png";
 import Completed_PNG from "../assets/Completed.png";
 import Inprogress_PNG from "../assets/Inprogress.png";
+import {DragDropContext} from "react-beautiful-dnd";
+import { useMutation } from "@apollo/client";
+import {UPDATE_TASK_TYPE} from "../Graphql/Mutations";
+
 
 const Body = () => {
   const { error, loading, data } = useQuery(GET_TASKS);
@@ -36,10 +40,68 @@ const Body = () => {
     completedTasks.push(tasks[i]);
 
   }
+  const [updateTaskType ,{err}]=useMutation(UPDATE_TASK_TYPE);
+  let onDragEnd=result=>{
+    console.log(todoTasks);
+    console.log(completedTasks);
+    const {destination ,source,droppableId}=result;
+    if(!destination){
+      return;
+    }
+    if(destination.droppableId===source.droppableId
+      ){
+         return;
+       }
+       let idToUpdate="";
+       let currenttaskdata;
+       if(source.droppableId===TASK_TYPE1)
+       {  currenttaskdata=todoTasks[source.index];
+          idToUpdate=todoTasks[source.index]['id'];
+          todoTasks.splice(source.index);
+        }
+       if(source.droppableId===TASK_TYPE2)
+       {  
+        currenttaskdata=inprogressTasks[source.index];
+        idToUpdate=inprogressTasks[source.index]['id'];
+        inprogressTasks.splice(source.index);
+       }
+       if(source.droppableId===TASK_TYPE3)
+       {
+        currenttaskdata=completedTasks[source.index]['id'];
+        idToUpdate=completedTasks[source.index]['id'];
+        completedTasks.splice(source.index);
+       }
 
+       if(destination.droppableId===TASK_TYPE1)
+       {
+          todoTasks.push(currenttaskdata);
+        }
+       if(destination.droppableId===TASK_TYPE2)
+       {
+         inprogressTasks.push(currenttaskdata);
+       
+       }
+       if(destination.droppableId===TASK_TYPE3)
+       {
+         completedTasks.push(currenttaskdata);
+       }
+       console.log(todoTasks);
+      console.log(completedTasks);
+       let newtaskType=destination.droppableId;
+
+       //runmutation;
+       updateTaskType({
+        variables:{
+          id:idToUpdate,
+          tasktype:newtaskType,
+        },refetchQueries:[{query:GET_TASKS}]
+      },)
+
+ }
 
   return (
-    <div className="body__wrapper">
+    <DragDropContext  onDragEnd={onDragEnd} >
+    <div className="body__wrapper" >
       <div className="list__wrapper">
      
       <div className="list__title__wrapper">
@@ -47,13 +109,13 @@ const Body = () => {
          <img src={Todo_PNG}   width="60" 
            height="60" />
         </div>
-        <h2>TODO</h2>
+        <h2>{TASK_TYPE1_TEXT}</h2>
         <div className="icon__wrapper">
         <TaskAddModal taskType={TASK_TYPE1}/>
         </div>
         
         </div>
-        <List tasks={todoTasks}/>
+        <List columnId={TASK_TYPE1} tasks={todoTasks}/>
       </div>
 
       <div className="list__wrapper"> 
@@ -62,12 +124,12 @@ const Body = () => {
          <img src={Inprogress_PNG}   width="60" 
            height="60" />
         </div>
-        <h2>INPROGRESS</h2>
+        <h2>{TASK_TYPE2_TEXT}</h2>
         <div className="icon__wrapper">
         <TaskAddModal taskType={TASK_TYPE2}/>
         </div>
         </div>
-        <List tasks={inprogressTasks}/>
+        <List  columnId={TASK_TYPE2 } tasks={inprogressTasks}/>
         </div>
 
         <div className="list__wrapper">
@@ -76,14 +138,15 @@ const Body = () => {
          <img src={Completed_PNG}   width="60" 
            height="60" />
         </div>
-          <h2>COMPLETED</h2>
+          <h2>{TASK_TYPE3_TEXT}</h2>
           <div className="icon__wrapper">
         <TaskAddModal taskType={TASK_TYPE3}/>
         </div>
         </div>
-        <List tasks={completedTasks}/>
+        <List  columnId={TASK_TYPE3} tasks={completedTasks}/>
         </div>
     </div>
+    </DragDropContext>
   );
 };
 

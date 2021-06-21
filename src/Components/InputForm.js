@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { useMutation } from "@apollo/client";
-
+import { FormControl,FormHelperText } from '@material-ui/core';
 import {GET_TASKS} from "../Graphql/Queries";
 import {CREATE_TASK} from "../Graphql/Mutations";
 const useStyles = makeStyles((theme) => ({
@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: "25ch",
+     
     },
   },
 }));
@@ -68,13 +69,18 @@ export default function MultilineTextFields(props) {
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <div>
+      <FormControl  >
         <TextField
           id="standard-basic"
           label="TITLE"
           value={taskName}
           onChange={handleTitle}
+          required
+          aria-describedby="my-helper-text" 
         />
+        <FormHelperText id="my-helper-text">Title cannot be empty.</FormHelperText>
 
+        </FormControl>
         <TextField
           id="standard-multiline-flexible"
           label="DESCRIPTION"
